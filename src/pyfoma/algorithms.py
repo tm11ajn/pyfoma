@@ -294,7 +294,6 @@ def words_cheapest_probabilistic(fst: 'FST'):
     Q = [(1.0, next(cntr), fst.initialstate, [])]
     while Q:
         cost, _, s, seq = heapq.heappop(Q)
-        sys.stderr.write(str(cost))
         if s is None:
             yield cost, seq
         else:
