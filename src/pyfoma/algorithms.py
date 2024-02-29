@@ -291,11 +291,11 @@ def words_nbest_probabilistic(fst: 'FST', n) -> list:
 def words_cheapest_probabilistic(fst: 'FST'):
     """A generator to yield all words in order of cost, cheapest first."""
     cntr = itertools.count()
-    Q = [(1.0, next(cntr), fst.initialstate, [])]
+    Q = [(-1.0, next(cntr), fst.initialstate, [])]
     while Q:
         cost, _, s, seq = heapq.heappop(Q)
         if s is None:
-            yield cost, seq
+            yield -1.0*cost, seq
         else:
             if s in fst.finalstates:
                 heapq.heappush(Q, (cost * s.finalweight, next(cntr), None, seq))
