@@ -283,6 +283,25 @@ def words_cheapest(fst: 'FST'):
             for label, t in s.all_transitions():
                 heapq.heappush(Q, (cost + t.weight, next(cntr), t.targetstate, seq + [label]))
 
+def words_nbest_probabilistic(fst: 'FST', n) -> list:
+    """Finds the n cheapest word in an FST, returning a list."""
+    return list(itertools.islice(words_cheapest_probabilistic(fst), n))
+
+
+def words_cheapest_probabilistic(fst: 'FST'):
+    """A generator to yield all words in order of cost, cheapest first."""
+    cntr = itertools.count()
+    Q = [(0.0, next(cntr), fst.initialstate, [])]
+    while Q:
+        cost, _, s, seq = heapq.heappop(Q)
+        if s is None:
+            yield cost, seq
+        else:
+            if s in fst.finalstates:
+                heapq.heappush(Q, (cost * s.finalweight, next(cntr), None, seq))
+            for label, t in s.all_transitions():
+                heapq.heappush(Q, (cost * t.weight, next(cntr), t.targetstate, seq + [label]))
+
 
 @_copy_param
 def determinized_unweighted(fst: 'FST') -> 'FST':
