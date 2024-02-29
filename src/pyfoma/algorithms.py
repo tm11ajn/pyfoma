@@ -793,6 +793,8 @@ _algorithms_to_add: Dict[str, Callable] = {
     'label_states_topology': labelled_states_topology,
     'words_nbest': words_nbest,
     'words_cheapest': words_cheapest,
+    'words_nbest_probabilistic': words_nbest_probabilistic,
+    'words_cheapest_probabilistic': words_cheapest_probabilistic,
     'determinize_unweighted': determinized_unweighted,
     'determinize_as_dfa': determinized_as_dfa,
     'determinize': determinized,
